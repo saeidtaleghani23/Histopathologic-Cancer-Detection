@@ -12,7 +12,7 @@ from sklearn.metrics import accuracy_score
 from PIL import Image, ImageDraw
 from util import Keras_CustomSequence, lr_schedule
 from sklearn.model_selection import train_test_split
-from model_keras import CNN_model
+from model import CNN_model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import LearningRateScheduler
 
@@ -40,13 +40,14 @@ warnings.filterwarnings("ignore")
 # =============================================================================
 # Change this to your desired directory
 # destination_dir = '/home/saeid/Desktop/Machine_Learning_Projects/Datasets'
-data_dir = r'D:\ML_Projects\Machine_Learning_Projects\Datasets'
-data_dir = data_dir + '/histopathologic-cancer-detection'
-# make sure that the destination_dir is available
-# if not os.path.exists(data_dir):
-#     os.mkdir(data_dir)
-# # download the dataset
+data_dir = os.path.join(os.getcwd(), 'dataset')
+print(f'data_dir: {data_dir}')
+# Make sure that the destination_dir is available
+if not os.path.exists(data_dir):
+    os.mkdir(data_dir)
+# Download the dataset
 # download_datasets(data_dir)
+
 # =============================================================================
 # 2- Read the dataset
 # =============================================================================
@@ -98,22 +99,11 @@ params_model = {
 }
 model = CNN_model(params_model)
 model.summary()
-# Count total parameters
-total_params = model.count_params()
-print("Total Parameters:", total_params)
-
-# Count trainable parameters
-trainable_params = sum([p.trainable for p in model.trainable_weights])
-print("Trainable Parameters:", trainable_params)
-
-# Count non-trainable parameters
-non_trainable_params = total_params - trainable_params
-print("Non-Trainable Parameters:", non_trainable_params)
 
 # =============================================================================
 # 6- Defining a callback
 # =============================================================================
-path4save = r'D:\ML_Projects\Machine_Learning_Projects\Classifications\Binary_Classification\Keras_result'
+path4save = os.path.join(os.getcwd(), 'result') 
 if not os.path.exists(path4save):
     os.mkdir(path4save)
 # Define the filename where the model will be saved
