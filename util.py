@@ -11,49 +11,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 
 # =============================================================================
-# Create a custom dataset in Pytorch dataframe
-# =============================================================================
-
-
-class Pytorch_CustomDataset(Dataset):
-    def __init__(self, data_dir, transform, data_type="train"):
-        # path to images
-        data_path = os.path.join(data_dir, data_type)
-        # list of images
-        self.img_names = os.listdir(data_path)
-        # get the full path to images
-        self.full_filenames = [
-            os.path.join(data_path, image_name)
-            for image_name in self.img_names
-        ]
-        # load the labels saved in csv file
-        labels_path = os.path.join(data_dir, data_type + "_labels.csv")
-        labels_df = pd.read_csv(labels_path)
-        # set data frame index to id
-        labels_df.set_index("id", inplace=True)
-
-        # obtain labels from data frame
-        self.labels = [
-            labels_df.loc[image_name[:-4]].values[0]
-            for image_name in self.img_names
-        ]
-
-        self.transform = transform
-
-    def __len__(self):
-        # return size of dataset
-        return len(self.full_filenames)
-
-    def __getitem__(self, idx):
-        # open image, apply transforms and return with label
-        img = Image.open(self.full_filenames[idx])
-        img = self.transform(img)
-        return img, self.labels[idx]
-
-# =============================================================================
 # custom dataset for Keras
 # =============================================================================
-
 
 class Keras_CustomSequence(Sequence):
     def __init__(self, images, labels, batch_size,
@@ -93,7 +52,6 @@ class Keras_CustomSequence(Sequence):
 # =============================================================================
 #   learning schedule for keras mdoel
 # =============================================================================
-
 
 def lr_schedule(epoch, lr):
     if epoch < 20:

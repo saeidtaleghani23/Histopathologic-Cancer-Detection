@@ -108,13 +108,6 @@ if not os.path.exists(path4save):
     os.mkdir(path4save)
 # Define the filename where the model will be saved
 filepath = os.path.join(path4save, 'model_checkpoint.h5')
-callbacks = [
-    keras.callbacks.ModelCheckpoint(filepath=filepath,
-                                    save_best_only=True,
-                                    monitor="val_loss"),
-    LearningRateScheduler(lr_schedule)
-
-]
 
 callbacks = [
     keras.callbacks.ModelCheckpoint(filepath=filepath,
