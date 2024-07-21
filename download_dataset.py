@@ -25,11 +25,3 @@ def download_datasets(destination_dir):
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
-#if __name__ == "__main__":
-#    data_dir = os.path.join(os.getcwd(), 'dataset')
-#    print(f'data_dir: {data_dir}')
-    # Make sure that the destination_dir is available
-#    if not os.path.exists(data_dir):
-#        os.mkdir(data_dir)
-    # Download the dataset
-#    download_datasets(data_dir)
